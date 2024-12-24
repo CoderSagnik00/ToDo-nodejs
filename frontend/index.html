@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Taskly</title>
+</head>
+
+<body class="bg-[#001242]">
+    <!-- Add Task -->
+    <div class="mt-48">
+        <p class="text-[#0094C6] mb-5 font-bold text-center text-4xl select-none ">Add Task</p>
+        <div class="flex justify-center">
+            <input type="text" id="new-task" class="text-xl w-[68rem] py-2 px-5 text-center outline-none rounded-xl border-none"
+                placeholder="Enter your task here">
+            <img src="./resource/add_24dp__FILL0_wght400_GRAD0_opsz24.svg" alt="add"
+                class="bg-[#0094C6] text-center py-3 px-2 rounded-md mx-4 text-white cursor-pointer select-none " id="add-task-btn">
+        </div>
+    </div>
+
+    <!-- Available Task -->
+    <div class="bg-[#D3D0CB] p-5 ml-[13rem] mr-[18rem] my-5 rounded-md font-semibold pl-10">
+        <ul class="text-xl text-[#001242] " id="tasks"></ul>
+        </ul>
+
+    </div>
+    <script type="module" src="./index.js"></script>
+</body>
+
+</html>
