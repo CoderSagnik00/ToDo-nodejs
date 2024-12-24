@@ -1,8 +1,9 @@
-import { addNewTask, showNotCompletedTask } from './todo.js'
+import { addNewTask, showNotCompletedTaskWithDelEventListner } from './todo.js'
+
 const addTaskBtn = document.getElementById("add-task-btn");
 
+showNotCompletedTaskWithDelEventListner()
 
-addTaskBtn.addEventListener("click", addNewTask)
 
+addTaskBtn.addEventListener("click", addNewTask);
 
-showNotCompletedTask()
