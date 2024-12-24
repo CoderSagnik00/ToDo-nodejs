@@ -6,7 +6,7 @@ export const getTask = (req, res) => {
     // If there is no id query then all datas are send
     try {
         if (!id)
-            return res.status(200).json({ success: "true", data: [...data] });
+            return res.status(200).json({ success: true, data: [...data] });
 
         // If there is id Quest then the speceficData send
         const reqData = data.find(d => d.id === Number(id));
