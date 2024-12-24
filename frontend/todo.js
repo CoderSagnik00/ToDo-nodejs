@@ -1,4 +1,4 @@
-import toastr from "toastr";
+import toastr, { error } from "toastr";
 import 'toastr/build/toastr.min.css'
 
 const tasks = document.getElementById("tasks");
@@ -37,18 +37,38 @@ export const showNotCompletedTask = async () => {
             const paragraph = document.createElement('p');
             const image = document.createElement('img');
             listItem.id = `task-{${e['id']}}`;
-            listItem.className = 'flex space-x-2 cursor-pointer task'
+            listItem.className = 'flex space-x-2 cursor-pointer'
             image.src = './resource/check_box_outline_blank_24dp__FILL0_wght400_GRAD0_opsz24.svg';
-            image.className = 'm-1';
+            image.className = 'm-1 ';
             image.alt = 'checkbox';
             paragraph.textContent = e['task']
-
+            paragraph.className = 'task'
             listItem.appendChild(image);
             listItem.appendChild(paragraph);
             tasks.appendChild(listItem);
+
         });
+
     }
 
+}
+
+export const showNotCompletedTaskWithDelEventListner = () => {
+    showNotCompletedTask().then(() => {
+        // After completeing the ShowNotCompletedTask then only it will add listenr to task 
+        const delTaskBtn = document.querySelectorAll('.task');
+
+        delTaskBtn.forEach(e => {
+            e.addEventListener('click', () => {
+                const match = e.parentElement.id.match(/\{(\d+)\}/);
+                if (match) {
+                    const taskId = match[1];
+                    deleteTask(taskId);
+                }
+            })
+
+        });
+    });
 }
 
 export const addNewTask = async () => {
@@ -61,7 +81,7 @@ export const addNewTask = async () => {
     }).then(async (response) => {
         const data = await response.json();
         return data;
-    })
+    }).catch((error) => console.log(error))
     toastr.options = {
         closeButton: true,
         positionClass: 'toast-top-center',
@@ -69,12 +89,30 @@ export const addNewTask = async () => {
     };
     if (response['success'] === true) {
         toastr.success("Task Added");
-        await showNotCompletedTask();
+        await showNotCompletedTaskWithDelEventListner();
     } else {
         toastr.error("Can't Add Task");
     }
 }
 
-export const deleteTask = async () => {
+export const deleteTask = async (id) => {
+    const data = { "id": id };
+    const response = await fetch("http://localhost:5000/api/todo", {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(async (response) => {
+        return response.json();
+    }).catch((error) => console.log(error));
+
+    if (response['success'] === true) {
+        console.log(response['data']);
+        showNotCompletedTaskWithDelEventListner()
+
+    }
+    console.log(id);
+
 
 }
