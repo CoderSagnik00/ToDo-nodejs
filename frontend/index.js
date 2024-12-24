@@ -51,8 +51,7 @@ const showNotCompletedTask = async () => {
 
 }
 
-
-addTaskBtn.addEventListener("click", async () => {
+const addNewTask = async () => {
     const newTask = { 'task': document.getElementById("new-task").value };
     const response = await fetch("http://localhost:5000/api/todo", {
         method: 'POST', headers: {
@@ -74,8 +73,10 @@ addTaskBtn.addEventListener("click", async () => {
     } else {
         toastr.error("Can't Add Task");
     }
-    console.log(response);
+}
 
-})
+
+
+addTaskBtn.addEventListener("click", addNewTask)
 
 showNotCompletedTask()
