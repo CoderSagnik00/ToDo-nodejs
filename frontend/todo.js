@@ -1,5 +1,11 @@
-import toastr, { error } from "toastr";
+import toastr from "toastr";
 import 'toastr/build/toastr.min.css'
+
+toastr.options = {
+    closeButton: true,
+    positionClass: 'toast-top-center',
+    timeOut: '3000',
+};
 
 const tasks = document.getElementById("tasks");
 
@@ -36,7 +42,7 @@ export const showNotCompletedTask = async () => {
             const listItem = document.createElement('li');
             const paragraph = document.createElement('p');
             const image = document.createElement('img');
-            listItem.id = `task-{${e['id']}}`;
+            listItem.id = `task-{${e['_id']}}`;
             listItem.className = 'flex space-x-2 cursor-pointer'
             image.src = './resource/check_box_outline_blank_24dp__FILL0_wght400_GRAD0_opsz24.svg';
             image.className = 'm-1 ';
@@ -60,10 +66,11 @@ export const showNotCompletedTaskWithDelEventListner = () => {
 
         delTaskBtn.forEach(e => {
             e.addEventListener('click', () => {
-                const match = e.parentElement.id.match(/\{(\d+)\}/);
+
+                const match = e.parentElement.id.match(/\{([^}]+)\}/);
                 if (match) {
                     const taskId = match[1];
-                    deleteTask(taskId);
+                    deleteTask(taskId)
                 }
             })
 
@@ -81,14 +88,10 @@ export const addNewTask = async () => {
     }).then(async (response) => {
         const data = await response.json();
         return data;
-    }).catch((error) => console.log(error))
-    toastr.options = {
-        closeButton: true,
-        positionClass: 'toast-top-center',
-        timeOut: '3000',
-    };
+    }).catch((error) => console.log(error));
+
     if (response['success'] === true) {
-        toastr.success("Task Added");
+        toastr.success(response['message']);
         await showNotCompletedTaskWithDelEventListner();
     } else {
         toastr.error("Can't Add Task");
@@ -108,11 +111,10 @@ export const deleteTask = async (id) => {
     }).catch((error) => console.log(error));
 
     if (response['success'] === true) {
-        console.log(response['data']);
+        toastr.success(response['message']);
         showNotCompletedTaskWithDelEventListner()
-
+    }else{
+        toastr.error(response['message'])
     }
-    console.log(id);
-
 
 }
