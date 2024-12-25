@@ -34,7 +34,6 @@ export const readTask = async (id) => {
 export const delTask = async (id) => {
     try {
         const data = await todo.deleteOne({ _id: new ObjectId(id) })
-        console.log(data.deletedCount);
         
         return data.deletedCount;
     } catch (err) {
